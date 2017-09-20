@@ -59,6 +59,11 @@
         ],
         "parameters": [
           {
+            "in": "query",
+            "name": "context",
+            "description": "Example query string parameter"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "Pet object that needs to be added to the store",

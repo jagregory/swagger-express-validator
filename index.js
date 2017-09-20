@@ -83,12 +83,16 @@ const resolveRequestModelSchema = (req) => {
   let schema = null;
   if (pathObj) {
     const method = req.method.toLowerCase();
-    let requestSchemas = null;
+    let parameters = [];
+
     if (pathObj[method]) {
-      requestSchemas = pathObj[method].parameters;
+      parameters = pathObj[method].parameters || [];
     }
-    if (requestSchemas && requestSchemas.length > 0) {
-      schema = requestSchemas[0].schema;
+
+    const bodyParameter = parameters.find(p => p.in === 'body');
+
+    if (bodyParameter) {
+      schema = bodyParameter.schema;
     }
   }
   if (options.allowNullable) {
