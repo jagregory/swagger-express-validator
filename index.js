@@ -230,10 +230,11 @@ const validateRequest = (req, res, next) => {
         next();
       } else {
         const err = {
+          name: 'SwaggerValidationError',
           message: `Request schema validation failed for ${req.method}${req.originalUrl}`,
+          errors: validator.errors,
         };
-        res.status(400);
-        res.json(err);
+        next(err);
       }
     } else {
       debug('Request validation success');

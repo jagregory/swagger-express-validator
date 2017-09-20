@@ -9,7 +9,11 @@ const createServer = (requestHandler, opts) => {
   server.use(validator(opts));
   server.use('/', requestHandler);
   server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    if (err.name === 'SwaggerValidationError') {
+      res.status(HttpStatus.BAD_REQUEST);
+    } else {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     res.json(err);
   });
   return server.listen(3000);
